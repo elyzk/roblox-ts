@@ -20,9 +20,10 @@
 		"rootDir": "src",
 		"outDir": "out",
 		"baseUrl": "src",
-		// "paths": { // Using @ throws errors in npm run wtach
-		// 	"@/*": ["*"]
-		// },
+		"paths": { // Using @ throws errors in npm run wtach
+			"@/*": ["./src/*"],
+			"@": ["./src"]
+		},
 		"incremental": true,
 		"tsBuildInfoFile": "out/tsconfig.tsbuildinfo",
 

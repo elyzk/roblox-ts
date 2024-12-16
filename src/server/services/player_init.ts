@@ -7,6 +7,7 @@ export class PlayerInitialize implements OnStart, OnInit {
     onInit() {}
 
     onStart() {
+        print("Player init");
         let isMoving : boolean = false;
         Players.PlayerAdded.Connect((player: Player) => {
             CollectionService.AddTag(player, "Player_Tag");
