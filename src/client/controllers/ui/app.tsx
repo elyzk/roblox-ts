@@ -6,23 +6,23 @@ import { CollectedCards } from "./components/currentcards";
 
 const root = createRoot(new Instance("Folder"));
 export default function App() {
-	let cardNames: string[] = ["red", "orange", "yellow", "green", "blue", "purple"];
-	let cards: CardData[] = cardNames.map((name) => new CardData(name));
+	let ids: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	let cards: CardData[] = ids.map((id) => new CardData(`Card ${id}`));
 	// let cards : CardData[] = [new CardData("cheese"), new CardData("crackers"), new CardData("muffin"), new CardData("crackers")];
 
 	return (
 		<frame
 			Size={new UDim2(1, 0, 1, 0)}
 			children={[
-				<textlabel
-					Position={new UDim2(0.5, 0, 0.5, 0)} // Relative to top left
-					AnchorPoint={new Vector2(0.5, 0.5)} // Does nothing??
-					Text={`Hello`}
-					FontSize={Enum.FontSize.Size96}
-					Font={Enum.Font.LuckiestGuy}
-					TextColor3={new Color3(1, 1, 1)}
-					children={[<uistroke Thickness={8} />]}
-				/>,
+				// <textlabel
+				// 	Position={new UDim2(0.5, 0, 0.5, 0)} // Relative to top left
+				// 	AnchorPoint={new Vector2(0.5, 0.5)} // Does nothing??
+				// 	Text={`Hello`}
+				// 	FontSize={Enum.FontSize.Size96}
+				// 	Font={Enum.Font.LuckiestGuy}
+				// 	TextColor3={new Color3(1, 1, 1)}
+				// 	children={[<uistroke Thickness={8} />]}
+				// />,
 				<CollectedCards cards={cards}	/>
 			]}
 		></frame>

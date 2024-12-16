@@ -8,46 +8,51 @@ import { RunService } from "@rbxts/services";
 interface CardProps {
     position: UDim2;
 	name: string;
+	onSelected: (a: boolean) => void;
+	selected: number;
 }
 
 export function Card(props: CardProps) {
-	let startSize = new UDim2(0, 50, 0, 75);
-	let endSize = new UDim2(0, 100, 0, 150);
-	let startPosition = props.position;
-	let midPosition = startPosition.add(new UDim2(0, 0, -0.1, 0)); 
-	let endPosition = startPosition.add(new UDim2(0, 0, -0.25, 0));
-	let delta = 0.5;
-	let animCompleted = true;
+	const startSize = new UDim2(0, 50, 0, 75);
+	const endSize = new UDim2(0, 100, 0, 150);
 
-	const [clicked, setClicked] = useState(false);
-	// const posBinding = useSpring(startPosition)
+	const startPosition = props.position;
+	const midPosition = startPosition.add(new UDim2(0, 0, -0.1, 0)); 
+	const endPosition = startPosition.add(new UDim2(0, 0, -0.25, 0));
+	
+	const delta = 0.75;
+
+	const tweenStyle = Enum.EasingStyle.Quart;
+
+	let clicked = props.selected > -1;
+
 	const [size, sizeMotion] = useMotion(startSize);
 	const [pos, posMotion] = useMotion(startPosition);
-	// const [progress, setProgress] = useBinding(0);
-
-	// useEventListener(RunService.Heartbeat, (deltaTime) => {
-	// 	setProgress(math.clamp(progress.getValue() + deltaTime, 0, 1));
-	// })
 
 	const handleMouseEnter = () => {
 		if (clicked) return;
-        sizeMotion.tween(endSize, { time: delta, style: Enum.EasingStyle.Quart });
-		// setProgress(0);
-		// posBinding.map(() => startPosition.Lerp(endPosition, progress.getValue()));
-        posMotion.tween(midPosition, { time: delta, style: Enum.EasingStyle.Quart });
+        sizeMotion.tween(endSize, { time: delta, style: tweenStyle });
+        posMotion.tween(midPosition, { time: delta, style: tweenStyle });
+		wait(delta);
     }
 
     const handleMouseLeave = () => {
 		if (clicked) return;
-		sizeMotion.tween(startSize, { time: delta, style: Enum.EasingStyle.Quart });
-		posMotion.tween(startPosition, {time: delta, style: Enum.EasingStyle.Quart});
+		sizeMotion.tween(startSize, { time: delta, style: tweenStyle });
+		posMotion.tween(startPosition, {time: delta, style: tweenStyle});
+		wait(delta);
     }
 
 	const handleMouseClick = () => {
-		// animCompleted = false;
-		// if (!animCompleted) return;
-		setClicked(true);
-		posMotion.tween(endPosition, {time: delta, style: Enum.EasingStyle.Quart});
+		if (!clicked) { // card is already selected
+			props.onSelected(true);
+			posMotion.tween(endPosition, {time: delta, style: tweenStyle});
+			sizeMotion.tween(endSize, {time: delta, style: tweenStyle});
+		} else {
+			props.onSelected(false);
+			posMotion.tween(startPosition, {time: delta, style: tweenStyle});
+			sizeMotion.tween(startSize, {time: delta, style: tweenStyle});
+		}
 		wait(delta);
 	}
 
