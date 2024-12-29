@@ -6,8 +6,7 @@ import { Players } from "@rbxts/services";
 @Controller()
 export class CharacterController extends BaseComponent implements OnStart {
     onStart(): void {
-        print("Player started");
-        // Players.LocalPlayer.WaitForChild("PlayerGui"); // is this necessary?
-        UIService.mount();
+        Players.LocalPlayer.WaitForChild("PlayerGui");
+        UIService.remount();
     }
 }

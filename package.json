@@ -26,11 +26,13 @@
     "@flamework/components": "^1.2.2",
     "@flamework/core": "^1.2.2",
     "@flamework/networking": "^1.2.2",
+    "@rbxts/lapis": "^0.3.6",
     "@rbxts/pretty-react-hooks": "^0.6.1",
     "@rbxts/react": "^17.2.1",
     "@rbxts/react-roblox": "^17.2.1",
     "@rbxts/ripple": "^0.8.1",
     "@rbxts/services": "^1.5.5",
+    "@rbxts/t": "^3.1.1",
     "roblox-ts": "^3.0.0"
   }
 }
