@@ -6,19 +6,11 @@ import { CollectedCards } from "./components/currentcards";
 
 const root = createRoot(new Instance("Folder"));
 export default function App() {
-	let ids: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-	let cards: CardData[] = ids.map((id) => new CardData(`Card ${id}`));
+	const ids: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+	const cards: CardData[] = ids.map((id) => new CardData(`Card ${id}`));
 	// let cards : CardData[] = [new CardData("cheese"), new CardData("crackers"), new CardData("muffin"), new CardData("crackers")];
 
-	return (
-		<frame
-			Size={new UDim2(1, 0, 1, 0)}
-			Transparency={1}
-			children={[
-				<CollectedCards cards={cards}	/>
-			]}
-		></frame>
-	);
+	return <frame Size={new UDim2(1, 0, 1, 0)} Transparency={1} children={[<CollectedCards cards={cards} />]}></frame>;
 }
 
 export function renderApp() {

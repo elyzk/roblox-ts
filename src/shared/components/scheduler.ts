@@ -3,55 +3,55 @@ import { Controller, Modding, OnStart, Service } from "@flamework/core";
 import { Players } from "@rbxts/services";
 
 export interface OnPlayerJoined {
-    onPlayerJoined(player: Player): void;
+	onPlayerJoined(player: Player): void;
 }
 
 export interface OnPlayerLeaving {
-    onPlayerLeaving(player: Player): void;
+	onPlayerLeaving(player: Player): void;
 }
 
 @Service()
 @Controller()
 export class PlayerJoinService extends BaseComponent implements OnStart {
-    onStart() {
-        const listeners = new Set<OnPlayerJoined>;
+	onStart() {
+		const listeners = new Set<OnPlayerJoined>();
 
-        Modding.onListenerAdded<OnPlayerJoined>((object) => listeners.add(object));
-        Modding.onListenerRemoved<OnPlayerJoined>((object) => listeners.delete(object));
+		Modding.onListenerAdded<OnPlayerJoined>((object) => listeners.add(object));
+		Modding.onListenerRemoved<OnPlayerJoined>((object) => listeners.delete(object));
 
-        Players.PlayerAdded.Connect((player) => {
-            for (const listener of listeners) {
-                task.spawn(() => listener.onPlayerJoined(player));
-            }
-        })
+		Players.PlayerAdded.Connect((player) => {
+			for (const listener of listeners) {
+				task.spawn(() => listener.onPlayerJoined(player));
+			}
+		});
 
-        for (const player of Players.GetPlayers()) {
-            for (const listener of listeners) {
-                task.spawn(() => listener.onPlayerJoined(player));
-            }
-        }
-    }
+		for (const player of Players.GetPlayers()) {
+			for (const listener of listeners) {
+				task.spawn(() => listener.onPlayerJoined(player));
+			}
+		}
+	}
 }
 
 @Service()
 @Controller()
 export class PlayerLeaveService extends BaseComponent implements OnStart {
-    onStart() {
-        const listeners = new Set<OnPlayerLeaving>;
+	onStart() {
+		const listeners = new Set<OnPlayerLeaving>();
 
-        Modding.onListenerAdded<OnPlayerLeaving>((object) => listeners.add(object));
-        Modding.onListenerRemoved<OnPlayerLeaving>((object) => listeners.delete(object));
+		Modding.onListenerAdded<OnPlayerLeaving>((object) => listeners.add(object));
+		Modding.onListenerRemoved<OnPlayerLeaving>((object) => listeners.delete(object));
 
-        Players.PlayerAdded.Connect((player) => {
-            for (const listener of listeners) {
-                task.spawn(() => listener.onPlayerLeaving(player));
-            }
-        })
+		Players.PlayerRemoving.Connect((player) => {
+			for (const listener of listeners) {
+				task.spawn(() => listener.onPlayerLeaving(player));
+			}
+		});
 
-        for (const player of Players.GetPlayers()) {
-            for (const listener of listeners) {
-                task.spawn(() => listener.onPlayerLeaving(player));
-            }
-        }
-    }
+		for (const player of Players.GetPlayers()) {
+			for (const listener of listeners) {
+				task.spawn(() => listener.onPlayerLeaving(player));
+			}
+		}
+	}
 }
