@@ -1,37 +1,29 @@
-import { BaseComponent } from "@flamework/components";
 import { Service } from "@flamework/core";
-import { Collection, CollectionOptions, createCollection, Document } from "@rbxts/lapis";
-import { DataStoreService, Players, RunService } from "@rbxts/services";
-import { t } from "@rbxts/t";
-import { OnPlayerJoined, OnPlayerLeaving } from "shared/components/scheduler";
-import { defaultPlayerData, PlayerData } from "shared/store/default-data";
+import { Collection, createCollection, Document } from "@rbxts/lapis";
+import { Players, RunService } from "@rbxts/services";import { defaultPlayerData, PlayerData } from "shared/store/default-data";
 import { validate } from "./validate-data";
 import { store } from "server/store";
 import { selectPlayerData } from "shared/store/persistent-selectors";
+import PlayerRemovalService from "server/player/player-removal-service";
+import { Logger } from "@rbxts/log";
+import KickCode from "types/kick-reason";
 
 const documents = new Map<string, Document<{ cards: number }>>();
 const DATA_STORE_NAME = RunService.IsStudio() ? "dev" : "prod";
 
 
 @Service()
-export class _DatastoreService extends BaseComponent implements OnPlayerJoined, OnPlayerLeaving {
+export default class PlayerDataService {
 	private readonly collection: Collection<PlayerData>
 	
-	constructor() {
-		super();
+	constructor(
+		private readonly logger: Logger,
+		private readonly playerRemovalService: PlayerRemovalService,
+	) {
 		this.collection = createCollection(DATA_STORE_NAME, {
             defaultData: defaultPlayerData,
 			validate, // try this with @rbxts/t instead?
         });
-	}
-
-	onPlayerJoined(player: Player): void {
-		this.getCards(player);
-	}
-
-	onPlayerLeaving(player: Player): void {
-		// documents.get(`${player.UserId}`)!.save(); // this should always exist b/c we add document on player join
-		// documents.delete(`${player.UserId}`);
 	}
 
     /**
@@ -64,35 +56,13 @@ export class _DatastoreService extends BaseComponent implements OnPlayerJoined, 
 
 			return document;
 		} catch (err) {
-			print(`Failed to load data for ${player.UserId}`);
-			// this.logger.Warn(`Failed to load data for ${player.UserId}: ${err}`);
-			// this.playerRemovalService.removeForBug(player, KickCode.PlayerProfileUndefined);
+			this.logger.Warn(`Failed to load data for ${player.UserId}: ${err}`);
+			this.playerRemovalService.removeForBug(player, KickCode.PlayerProfileUndefined);
 		}
-	}
-
-	getCards(player: Player) {
-		// const playerDocument = await this.loadPlayerData(player);
-		// if (!playerDocument) return;
-		// print(playerDocument.read());
-		this.loadPlayerData(player).then((document) =>{
-			if (!document) return;
-			print(document.read());
-		}
-		)
 	}
 }
 
 export namespace DatastoreService {
-	// export function getCards(player: Player) {
-	// 	const playerDocument =  _DatastoreService.loadPlayerData(player);
-	// }
-
-	// Idk if this should be here.
-	// could do generateCard() somewhere else and just have an addCard() that takes a known card
-	// export function generateCard(player: Player) {
-
-	// }
-
 	export function addCard(player: Player, name: string) {
 		const old = getDocuments(player).read();
 		getDocuments(player).write({ cards: old.cards + 1 });

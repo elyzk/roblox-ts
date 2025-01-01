@@ -14,7 +14,7 @@ export const cardsSlice = createProducer(initialState, {
     },
 
     loadPlayerData: (state, playerId: string, data: PlayerData): CardsState => {
-		return {
+        return {
 			...state,
 			[playerId]: data.cards,
 		};
