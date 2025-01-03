@@ -48,6 +48,7 @@ export default class PlayerDataService {
 			});
 
 			document.beforeClose(() => {
+				// What does calling this do?
 				unsubscribe();
 				store.deletePlayerSave(tostring(player.UserId));
 			});

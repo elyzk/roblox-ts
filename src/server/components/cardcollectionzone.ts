@@ -3,6 +3,8 @@ import { OnStart } from "@flamework/core";
 import Log from "@rbxts/log";
 import { Players, RunService } from "@rbxts/services";
 import { store } from "server/store";
+import { USER_ID } from "shared/constants";
+import { selectPlayerSaveById } from "shared/store/save/save-selectors";
 
 @Component({ tag: "card-collection-zone" })
 export class CardCollectionZone extends BaseComponent implements OnStart {
@@ -10,7 +12,6 @@ export class CardCollectionZone extends BaseComponent implements OnStart {
 
 	onStart(): void {
 		assert(this.instance.IsA("BasePart"), "Zone must be attached to a BasePart");
-
 		this.instance.Touched.Connect((hit: BasePart) => {
 			if (this.hit) return;
 
@@ -21,10 +22,12 @@ export class CardCollectionZone extends BaseComponent implements OnStart {
 
 				if (!player) return;
 
-				store.givePlayerCard(
-					`${player.UserId}`,
-					"cheese"
-				)
+				store.setPlayerSave(tostring(player.UserId), {cards: ["cheese", "fire", "water", "snow"]});
+
+				// store.givePlayerCard( // TODO: givePlayerCard doesn't trigger state callbacks
+				// 	`${player.UserId}`,
+				// 	"snow"
+				// )
 				
 				// store.givePlayerCard(`${player.UserId}`, "cheese");
 			}

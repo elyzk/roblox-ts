@@ -1,6 +1,6 @@
 import { Flamework, Modding } from "@flamework/core";
 import Log, { Logger } from "@rbxts/log";
-import { GAME_NAME } from "shared/constants";
+import { GAME_NAME, USER_ID } from "shared/constants";
 import { setupLogger } from "shared/functions/setup-logger";
 import { UIService } from "./ui/uiservice";
 import { store } from "./store";
@@ -18,7 +18,6 @@ function start(): void {
    Log.Info(`Flamework ignite!`);
 
    Flamework.ignite();
-   store.getPlayerSave(tostring(Players.LocalPlayer.UserId));
 
    UIService.remount();
 }

@@ -1,15 +1,23 @@
 import { Networking } from "@flamework/networking";
+import { BroadcastAction } from "@rbxts/reflex";
+import { Client } from "@rbxts/remo";
 
-interface ClientToServerEvents {
-    touchedKicker(): void;
+interface ServerEvents {
+    reflex: {
+        start: () => void;
+    }
 }
 
-interface ServerToClientEvents {}
+interface ServerFunctions{}
 
-interface ClientToServerFunctions {
+interface ClientEvents {
+    reflex: {
+        dispatch: (actions: Array<BroadcastAction>) => void;
+        start: () => void;
+    }
 }
 
-interface ServerToClientFunctions {}
+interface ClientFunctions{}
 
-export const GlobalEvents = Networking.createEvent<ClientToServerEvents, ServerToClientEvents>();
-export const GlobalFunctions = Networking.createFunction<ClientToServerFunctions, ServerToClientFunctions>();
+export const GlobalEvents = Networking.createEvent<ServerEvents, ClientEvents>();
+export const GlobalFunctions = Networking.createFunction<ServerFunctions, ClientFunctions>();

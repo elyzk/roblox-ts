@@ -154,18 +154,15 @@ export default class PlayerService implements OnStart {
 	 */
     private async onPlayerJoin(player: Player): Promise<void> {
         // This callback runs after this function returns. Why?
-        // store.subscribe(selectPlayerSaveById(`${player.UserId}`), (save, lastSave) => {
-        //     this.logger.Info(`Subscribe callback, last save: ${lastSave}`);
-        //     this.logger.Info(`Subscribe callback, current save: ${save}`);
-        // })
+        store.subscribe(selectPlayerSaveById(`${player.UserId}`), (save, lastSave) => {
+            this.logger.Info(`Subscribe callback registed`);
+        })
         
         const playerDocument = await this.playerDataService.loadPlayerSave(player);
         if (!playerDocument) {
             this.playerRemovalService.removeForBug(player, KickCode.PlayerInstantiationError);
             return;
         }
-
-        this.logger.Info("Player save has loaded");
 
         const janitor = this.setupPlayerJanitor(player, playerDocument);
         const playerEntity = new PlayerEntity(player, janitor, playerDocument);

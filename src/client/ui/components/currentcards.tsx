@@ -5,23 +5,22 @@ import { selectPlayerCards, selectPlayerSaveById, selectPlayerSaves } from "shar
 import { Players } from "@rbxts/services";
 import { useStore } from "../hooks/use-store";
 import Log from "@rbxts/log";
+import { USER_ID } from "shared/constants";
 
 // Graphical representation of a list of cards
 
 export function CollectedCards() {
 	const [selected, setSelected] = useState(-1);
 
-	let collectedCards = useSelectorCreator(selectPlayerCards, `${Players.LocalPlayer.UserId}`)
-	// let collectedCards = useSelector(selectPlayerCards(`${Players.LocalPlayer.UserId}`));
+	let collectedCards = useSelectorCreator(selectPlayerCards, `${USER_ID}`)
 	if (collectedCards === undefined) {
 		Log.Warn('Selector is undefined');
 		collectedCards = [];
 	}
 
-	let testSelector = useSelector(selectPlayerSaves);
 	Log.Info("Collected cards re-rendered");
-	// const collectedCards = useSelector(selectPlayerCards("151381226")) || [];
 
+	// TODO: fix improper rerendering
 	const cards = collectedCards.map((card, i) => {
 		const yOffset = 0.85;
 		const xOffset = (1 / (collectedCards.size() + 1)) * (i + 1);
@@ -32,7 +31,6 @@ export function CollectedCards() {
 			} else {
 				setSelected(i);
 			}
-			print(`Card ${i + 1} was updated`);
 		};
 		return (
 			<Card

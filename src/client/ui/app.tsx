@@ -8,6 +8,7 @@ import Log, { Logger } from "@rbxts/log";
 import { Players } from "@rbxts/services";
 import { selectPlayerCards } from "shared/store/save/save-selectors";
 import { defaultPlayerSave } from "shared/store/save/save-types";
+import { USER_ID } from "shared/constants";
 
 const root = createRoot(new Instance("Folder"));
 export default function App() {
@@ -17,12 +18,12 @@ export default function App() {
 
 	// const ids: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 	// const cards: CardData[] = ids.map((id) => new CardData(`Card ${id}`));
-	store.setPlayerSave(`${Players.LocalPlayer.UserId}`, defaultPlayerSave);
+	store.setPlayerSave(`${USER_ID}`, defaultPlayerSave);
 	Log.Info("UI rendering");
 
-	store.subscribe(selectPlayerCards(`${Players.LocalPlayer.UserId}`), (cards, lastCards) => {
-		Log.Info("Subscription registered cards change");
-	})
+	// store.subscribe(selectPlayerCards(`${USER_ID}`), (cards, lastCards) => {
+	// 	Log.Info("Subscription registered cards change");
+	// })
 
 	return <frame Size={new UDim2(1, 0, 1, 0)} Transparency={1} children={[<CollectedCards/>]}></frame>;
 }

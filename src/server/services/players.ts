@@ -1,14 +1,17 @@
 import {Service, OnStart, OnInit} from "@flamework/core"
-import { Players, CollectionService, PhysicsService } from "@rbxts/services"
-import { ServerEvents } from "server/network";
+import Log, { Logger } from "@rbxts/log";
+import { store } from "server/store"
+import { USER_ID } from "shared/constants";
+import { selectPlayerSaveById } from "shared/store/save/save-selectors";
 
 @Service({})
-export class CharacterController implements OnStart, OnInit {
-    onInit() {}
-
+export class SubscriptionService implements OnStart {
+    constructor(
+        private readonly logger: Logger,
+    ) {}
     onStart() {
-        PhysicsService.RegisterCollisionGroup("game-players");
-        PhysicsService.CollisionGroupSetCollidable("game-players", "game-players", false);
-        // PhysicsService.CollisionGroupSetCollidable("game-players", "card-collection-zone", true);
+        store.subscribe(selectPlayerSaveById(`${USER_ID}`), (save, lastSave) => {
+                    this.logger.Info(`Player save updated`);
+                })
     }
 }
