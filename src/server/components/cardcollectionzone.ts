@@ -1,7 +1,8 @@
 import { BaseComponent, Component } from "@flamework/components";
 import { OnStart } from "@flamework/core";
+import Log from "@rbxts/log";
 import { Players, RunService } from "@rbxts/services";
-import { DatastoreService } from "server/services/player-data-service";
+import { store } from "server/store";
 
 @Component({ tag: "card-collection-zone" })
 export class CardCollectionZone extends BaseComponent implements OnStart {
@@ -16,10 +17,16 @@ export class CardCollectionZone extends BaseComponent implements OnStart {
 			const humanoid = hit.Parent!.FindFirstChild("Humanoid");
 			if (humanoid) {
 				this.hit = true;
-				print("Zone touched");
-				const playerObj = Players.GetPlayerFromCharacter(humanoid.Parent);
+				const player = Players.GetPlayerFromCharacter(humanoid.Parent);
 
+				if (!player) return;
+
+				store.givePlayerCard(
+					`${player.UserId}`,
+					"cheese"
+				)
 				
+				// store.givePlayerCard(`${player.UserId}`, "cheese");
 			}
 		});
 	}

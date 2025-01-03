@@ -1,17 +1,19 @@
 import { OnStart, Service } from "@flamework/core";
 import PlayerEntity from "./player-entity";
 import Signal from "@rbxts/rbx-better-signal";
-import { ListenerData, setupLifecycle } from "shared/util/flamework-util";
-import { onPlayerAdded, promisePlayerDisconnected } from "shared/util/util";
+import { ListenerData, setupLifecycle } from "shared/utils/flamework-util";
+import { onPlayerAdded, promisePlayerDisconnected } from "shared/utils/util";
 import { Object } from "@rbxts/luau-polyfill";
 import PlayerRemovalService from "./player-removal-service";
 import KickCode from "types/kick-reason";
-import { Logger } from "@rbxts/log";
+import Log, { Logger } from "@rbxts/log";
 import { Janitor } from "@rbxts/janitor";
 import { Document } from "@rbxts/lapis";
-import { PlayerData } from "shared/store/default-data";
 import { Players } from "@rbxts/services";
 import PlayerDataService from "server/services/player-data-service";
+import { PlayerSave } from "shared/store/save/save-types";
+import { store } from "server/store";
+import { selectPlayerSaveById } from "shared/store/save/save-selectors";
 
 export interface OnPlayerJoin {
     /**
@@ -151,11 +153,19 @@ export default class PlayerService implements OnStart {
 	 * @param player - The player that joined the game.
 	 */
     private async onPlayerJoin(player: Player): Promise<void> {
-        const playerDocument = await this.playerDataService.loadPlayerData(player);
+        // This callback runs after this function returns. Why?
+        // store.subscribe(selectPlayerSaveById(`${player.UserId}`), (save, lastSave) => {
+        //     this.logger.Info(`Subscribe callback, last save: ${lastSave}`);
+        //     this.logger.Info(`Subscribe callback, current save: ${save}`);
+        // })
+        
+        const playerDocument = await this.playerDataService.loadPlayerSave(player);
         if (!playerDocument) {
             this.playerRemovalService.removeForBug(player, KickCode.PlayerInstantiationError);
             return;
         }
+
+        this.logger.Info("Player save has loaded");
 
         const janitor = this.setupPlayerJanitor(player, playerDocument);
         const playerEntity = new PlayerEntity(player, janitor, playerDocument);
@@ -185,7 +195,7 @@ export default class PlayerService implements OnStart {
         this.onEntityJoined.Fire(playerEntity);
     }
     
-    private setupPlayerJanitor(player: Player, playerDocument: Document<PlayerData>): Janitor {
+    private setupPlayerJanitor(player: Player, playerDocument: Document<PlayerSave>): Janitor {
         const janitor = new Janitor();
         janitor.Add(async () => {
             this.logger.Info(`Player ${player.UserId} leaving game, cleaning up Janitor`);

@@ -1,18 +1,30 @@
-import { CardData } from "client/data/card";
+import { useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import { Card } from "./card";
 import React, { useState } from "@rbxts/react";
+import { selectPlayerCards, selectPlayerSaveById, selectPlayerSaves } from "shared/store/save/save-selectors";
+import { Players } from "@rbxts/services";
+import { useStore } from "../hooks/use-store";
+import Log from "@rbxts/log";
+
 // Graphical representation of a list of cards
 
-interface CollectedCardsProps {
-	cards: CardData[];
-}
-
-export function CollectedCards(props: CollectedCardsProps) {
+export function CollectedCards() {
 	const [selected, setSelected] = useState(-1);
 
-	const cards = props.cards.map((card, i) => {
+	let collectedCards = useSelectorCreator(selectPlayerCards, `${Players.LocalPlayer.UserId}`)
+	// let collectedCards = useSelector(selectPlayerCards(`${Players.LocalPlayer.UserId}`));
+	if (collectedCards === undefined) {
+		Log.Warn('Selector is undefined');
+		collectedCards = [];
+	}
+
+	let testSelector = useSelector(selectPlayerSaves);
+	Log.Info("Collected cards re-rendered");
+	// const collectedCards = useSelector(selectPlayerCards("151381226")) || [];
+
+	const cards = collectedCards.map((card, i) => {
 		const yOffset = 0.85;
-		const xOffset = (1 / (props.cards.size() + 1)) * (i + 1);
+		const xOffset = (1 / (collectedCards.size() + 1)) * (i + 1);
 		const onSelected: (a: boolean) => void = (selection) => {
 			if (!selection) {
 				if (selected !== i) return; // We clicked on an unselected card
@@ -24,7 +36,7 @@ export function CollectedCards(props: CollectedCardsProps) {
 		};
 		return (
 			<Card
-				name={card.name}
+				name={card}
 				position={new UDim2(xOffset, 0, yOffset, 0)}
 				onSelected={onSelected}
 				selected={selected}

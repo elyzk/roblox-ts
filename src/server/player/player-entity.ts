@@ -1,6 +1,6 @@
 import { Janitor } from "@rbxts/janitor";
 import { Document } from "@rbxts/lapis";
-import { PlayerData } from "shared/store/default-data";
+import { PlayerSave } from "shared/store/save/save-types";
 
 export default class PlayerEntity {
     /** The player's username */
@@ -11,7 +11,7 @@ export default class PlayerEntity {
     constructor(
         public readonly player: Player,
         public readonly janitor: Janitor,
-        public readonly document: Document<PlayerData>
+        public readonly document: Document<PlayerSave>
     ) {
         this.name = player.Name;
         this.userId = tostring(player.UserId)

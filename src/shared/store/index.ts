@@ -1,8 +1,8 @@
 import { CombineStates } from "@rbxts/reflex";
-import { persistentSlice } from "./persistent";
+import { saveSlice } from "./save/save-slice";
 
 export type SharedState = CombineStates<typeof slices>
 
 export const slices = {
-    persistent: persistentSlice,
+    saves: saveSlice,
 }

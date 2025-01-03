@@ -3,6 +3,8 @@ import Log, { Logger } from "@rbxts/log";
 import { GAME_NAME } from "shared/constants";
 import { setupLogger } from "shared/functions/setup-logger";
 import { UIService } from "./ui/uiservice";
+import { store } from "./store";
+import { Players } from "@rbxts/services";
 
 function start(): void {
    setupLogger();
@@ -16,6 +18,7 @@ function start(): void {
    Log.Info(`Flamework ignite!`);
 
    Flamework.ignite();
+   store.getPlayerSave(tostring(Players.LocalPlayer.UserId));
 
    UIService.remount();
 }

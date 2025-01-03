@@ -1,4 +1,4 @@
-import { Flamework } from "@flamework/core";
-import { PlayerData } from "shared/store/default-data";
+// import { Flamework } from "@flamework/core";
+// import { PlayerSave } from "shared/store/save/save-types";
 
-export const validate = Flamework.createGuard<PlayerData>();
+// export const validate = Flamework.createGuard<PlayerSave>();
