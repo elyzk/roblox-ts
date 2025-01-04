@@ -25,7 +25,7 @@ export const saveSlice = createProducer(initialState, {
     givePlayerCard: (state, player: string, card: string) => {
         return mapProperty(state, player, (save) => ({
 			...save,
-			skins: [...save.cards, card],
+			cards: [...save.cards, card],
 		}));
     },
 

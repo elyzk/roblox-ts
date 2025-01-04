@@ -34,14 +34,14 @@ export default class PlayerDataService {
 	 */
 	public async loadPlayerSave(player: Player): Promise<Document<PlayerSave> | void> {
 		try {
-			const document = await this.collection.load(`${player.UserId}`, [player.UserId]);
+			const document = await this.collection.load(`${player.UserId}`);
 
 			if (!player.IsDescendantOf(Players)) {
 				await document.close();
 				return;
 			}
 
-			const unsubscribe = store.subscribe(selectPlayerSaveById(tostring(player.UserId)), data => {
+			const unsubscribe = store.subscribe(selectPlayerSaveById(player.Name), data => {
 				if (data) {
 					document.write(data);
 				}
@@ -50,11 +50,11 @@ export default class PlayerDataService {
 			document.beforeClose(() => {
 				// What does calling this do?
 				unsubscribe();
-				store.deletePlayerSave(tostring(player.UserId));
+				store.deletePlayerSave(player.Name);
 			});
 			
 			Log.Info(`Setting player save to loaded document with ${document.read().cards.size()} cards`);
-			store.setPlayerSave(tostring(player.UserId), document.read());
+			store.setPlayerSave(player.Name, document.read());
 
 			return document;
 		} catch (err) {

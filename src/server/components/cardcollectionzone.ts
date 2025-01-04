@@ -22,14 +22,7 @@ export class CardCollectionZone extends BaseComponent implements OnStart {
 
 				if (!player) return;
 
-				store.setPlayerSave(tostring(player.UserId), {cards: ["cheese", "fire", "water", "snow"]});
-
-				// store.givePlayerCard( // TODO: givePlayerCard doesn't trigger state callbacks
-				// 	`${player.UserId}`,
-				// 	"snow"
-				// )
-				
-				// store.givePlayerCard(`${player.UserId}`, "cheese");
+			store.setPlayerSave(player.Name, {cards: ["cheese", "fire", "snow", "water"]});
 			}
 		});
 	}

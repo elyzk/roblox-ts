@@ -29,7 +29,6 @@ export default function App() {
 }
 
 export function renderApp() {
-	// Don't forget to manually make it visible!
 
 	while (!game.IsLoaded()) wait(0.1);
 	const playerGui = new Instance("ScreenGui", game.GetService("Players").LocalPlayer.WaitForChild("PlayerGui"));

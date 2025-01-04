@@ -14,6 +14,6 @@ export default class PlayerEntity {
         public readonly document: Document<PlayerSave>
     ) {
         this.name = player.Name;
-        this.userId = tostring(player.UserId)
+        this.userId = player.Name
     }
 }

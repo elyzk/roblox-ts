@@ -2,23 +2,23 @@ import { useSelector, useSelectorCreator } from "@rbxts/react-reflex";
 import { Card } from "./card";
 import React, { useState } from "@rbxts/react";
 import { selectPlayerCards, selectPlayerSaveById, selectPlayerSaves } from "shared/store/save/save-selectors";
-import { Players } from "@rbxts/services";
-import { useStore } from "../hooks/use-store";
 import Log from "@rbxts/log";
-import { USER_ID } from "shared/constants";
+import { USER_ID, USER_NAME } from "shared/constants";
+import { useStore } from "../hooks/use-store";
 
 // Graphical representation of a list of cards
 
 export function CollectedCards() {
 	const [selected, setSelected] = useState(-1);
+	let store = useStore();
 
-	let collectedCards = useSelectorCreator(selectPlayerCards, `${USER_ID}`)
+	let collectedCards = useSelectorCreator(selectPlayerCards, USER_NAME);
 	if (collectedCards === undefined) {
 		Log.Warn('Selector is undefined');
 		collectedCards = [];
 	}
 
-	Log.Info("Collected cards re-rendered");
+	Log.Info(`Collected cards re-rendered, number of cards rendered: ${collectedCards.size()}`);
 
 	// TODO: fix improper rerendering
 	const cards = collectedCards.map((card, i) => {

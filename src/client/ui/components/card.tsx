@@ -1,9 +1,7 @@
 import React, { useBinding, useEffect, useState} from "@rbxts/react";
 import { TweenOptions } from "@rbxts/ripple";
 import { useMotion } from "../hooks/use-motion";
-import { useSpring } from "../hooks/use-spring";
-import { useEventListener } from "@rbxts/pretty-react-hooks";
-import { RunService } from "@rbxts/services";
+import Log from "@rbxts/log";
 
 interface CardProps {
     position: UDim2;
@@ -13,6 +11,7 @@ interface CardProps {
 }
 
 export function Card(props: CardProps) {
+	Log.Info("I am a new card: " + props.name);
 	const startSize = new UDim2(0, 50, 0, 75);
 	const endSize = new UDim2(0, 100, 0, 150);
 
