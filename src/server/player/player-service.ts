@@ -153,11 +153,6 @@ export default class PlayerService implements OnStart {
 	 * @param player - The player that joined the game.
 	 */
     private async onPlayerJoin(player: Player): Promise<void> {
-        // This callback runs after this function returns. Why?
-        store.subscribe(selectPlayerSaveById(`${player.UserId}`), (save, lastSave) => {
-            this.logger.Info(`Subscribe callback registed`);
-        })
-        
         const playerDocument = await this.playerDataService.loadPlayerSave(player);
         if (!playerDocument) {
             this.playerRemovalService.removeForBug(player, KickCode.PlayerInstantiationError);

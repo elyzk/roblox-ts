@@ -10,7 +10,7 @@ export function useMotion<T extends MotionGoal>(initialValue: T): LuaTuple<[Bind
 export function useMotion<T extends MotionGoal>(initialValue: T) {
 	const motion = useMemo(() => {
 		return createMotion(initialValue);
-	}, []);
+	}, [initialValue]);
 
 	const [binding, setValue] = useBinding(initialValue);
 

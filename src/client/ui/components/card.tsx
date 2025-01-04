@@ -11,7 +11,6 @@ interface CardProps {
 }
 
 export function Card(props: CardProps) {
-	Log.Info("I am a new card: " + props.name);
 	const startSize = new UDim2(0, 50, 0, 75);
 	const endSize = new UDim2(0, 100, 0, 150);
 
@@ -30,6 +29,8 @@ export function Card(props: CardProps) {
 
 	const handleMouseEnter = () => {
 		if (clicked) return;
+		Log.Info(`${startPosition}`);
+		Log.Info(`${pos}`)
         sizeMotion.tween(endSize, { time: delta, style: tweenStyle });
         posMotion.tween(midPosition, { time: delta, style: tweenStyle });
 		wait(delta);
