@@ -49,9 +49,16 @@ export default class PlayerDataService {
 
 			document.beforeClose(() => {
 				// What does calling this do?
+				// Maybe good practice for if document takes a long time to close
 				unsubscribe();
 				store.deletePlayerSave(player.Name);
 			});
+
+			// promisePlayerDisconnected(player).then(() => {
+			// 	store.deletePlayerSave(player.Name);
+			// 	unsubscribe();
+			// 	document.close();
+			// });
 			
 			Log.Info(`Setting player save to loaded document with ${document.read().cards.size()} cards`);
 			store.setPlayerSave(player.Name, document.read());

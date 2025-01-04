@@ -1,7 +1,3 @@
-// export interface PlayerData {
-//     readonly cards: PlayerCards;
-// }
-
 import { t } from "@rbxts/t";
 
 export interface PlayerSave {

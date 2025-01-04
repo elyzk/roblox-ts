@@ -14,5 +14,6 @@ createCommand("/get", (player, argument) => {
 })
 
 createCommand("/delete", (player, argument) => {
-	store.deletePlayerSave(player.Name);
+	// store.deletePlayerSave(player.Name); // I don't know why this doesn't work
+	store.setPlayerSave(player.Name, {cards: []});
 })
