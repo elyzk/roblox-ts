@@ -43,7 +43,7 @@ export function CollectedCards() {
 			<textlabel
 				Position={new UDim2(0.5, 0, 0.1, 0)} // Relative to top left
 				AnchorPoint={new Vector2(0.5, 0.5)} // Does nothing??
-				Text={selected > 0 ? `Card ${selected + 1}` : ""}
+				Text={selected >= 0 ? `Card ${selected + 1}` : ""}
 				FontSize={Enum.FontSize.Size96}
 				Font={Enum.Font.LuckiestGuy}
 				TextColor3={new Color3(1, 1, 1)}

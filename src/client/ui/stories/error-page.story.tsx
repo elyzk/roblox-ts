@@ -5,7 +5,7 @@ import { ErrorPage } from "../components/error-handler/error-page";
 export = hoarcekat(() => {
     return (
         <>
-            <ErrorPage message="Hello" />
+            <ErrorPage message="There was an error." />
         </>
     )
 })
