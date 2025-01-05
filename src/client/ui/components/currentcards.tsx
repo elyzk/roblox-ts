@@ -5,7 +5,7 @@ import { selectPlayerCards, selectPlayerSaveById, selectPlayerSaves } from "shar
 import Log from "@rbxts/log";
 import { USER_ID, USER_NAME } from "shared/constants";
 import { useStore } from "../hooks/use-store";
-import { Group } from "client/components/ui/group";
+import { Group } from "client/ui/components/group";
 
 // Graphical representation of a list of cards
 
