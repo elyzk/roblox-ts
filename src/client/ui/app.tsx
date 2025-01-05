@@ -9,17 +9,6 @@ import { defaultPlayerSave } from "shared/store/save/save-types";
 import { USER_ID } from "shared/constants";
 import { CollectedCards } from "./components/currentcards";
 
-const root = createRoot(new Instance("Folder"));
-const playerGui = new Instance("ScreenGui", Players.LocalPlayer.WaitForChild("PlayerGui"));
-export default function App() {
-
+export function App() {
 	return <frame Size={new UDim2(1, 0, 1, 0)} Transparency={1} children={[<CollectedCards/>]}></frame>;
-}
-
-export function renderApp() {
-	root.render(<StrictMode>{createPortal(
-		<ReflexProvider producer={store}>
-			<App />
-		</ReflexProvider>,
-	playerGui)}</StrictMode>);
 }
