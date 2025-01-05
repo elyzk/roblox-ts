@@ -7,7 +7,7 @@ import { Players } from "@rbxts/services";
 import { selectPlayerCards } from "shared/store/save/save-selectors";
 import { defaultPlayerSave } from "shared/store/save/save-types";
 import { USER_ID } from "shared/constants";
-import { CollectedCards } from "./components/currentcards";
+import { CollectedCards } from "./components/cards/currentcards";
 
 export function App() {
 	return <frame Size={new UDim2(1, 0, 1, 0)} Transparency={1} children={[<CollectedCards/>]}></frame>;

@@ -1,6 +1,6 @@
 import React, { useBinding, useEffect, useState} from "@rbxts/react";
 import { TweenOptions } from "@rbxts/ripple";
-import { useMotion } from "../hooks/use-motion";
+import { useMotion } from "../../hooks/use-motion";
 import Log from "@rbxts/log";
 
 interface CardProps {

@@ -4,7 +4,7 @@ import React, { useState } from "@rbxts/react";
 import { selectPlayerCards, selectPlayerSaveById, selectPlayerSaves } from "shared/store/save/save-selectors";
 import Log from "@rbxts/log";
 import { USER_ID, USER_NAME } from "shared/constants";
-import { useStore } from "../hooks/use-store";
+import { useStore } from "../../hooks/use-store";
 import { Group } from "client/ui/components/group";
 
 // Graphical representation of a list of cards
