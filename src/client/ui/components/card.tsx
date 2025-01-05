@@ -29,8 +29,6 @@ export function Card(props: CardProps) {
 
 	const handleMouseEnter = () => {
 		if (clicked) return;
-		Log.Info(`${startPosition}`);
-		Log.Info(`${pos}`)
         sizeMotion.tween(endSize, { time: delta, style: tweenStyle });
         posMotion.tween(midPosition, { time: delta, style: tweenStyle });
 		wait(delta);

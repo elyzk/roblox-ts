@@ -11,30 +11,16 @@ import { defaultPlayerSave } from "shared/store/save/save-types";
 import { USER_ID } from "shared/constants";
 
 const root = createRoot(new Instance("Folder"));
+const playerGui = new Instance("ScreenGui", Players.LocalPlayer.WaitForChild("PlayerGui"));
 export default function App() {
-	// store.subscribe(cardSelector, cards => {
-	// 	print(cards);
-	// });
-
-	// const ids: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-	// const cards: CardData[] = ids.map((id) => new CardData(`Card ${id}`));
-	store.setPlayerSave(`${USER_ID}`, defaultPlayerSave);
-	Log.Info("UI rendering");
-
-	// store.subscribe(selectPlayerCards(`${USER_ID}`), (cards, lastCards) => {
-	// 	Log.Info("Subscription registered cards change");
-	// })
 
 	return <frame Size={new UDim2(1, 0, 1, 0)} Transparency={1} children={[<CollectedCards/>]}></frame>;
 }
 
 export function renderApp() {
-
-	while (!game.IsLoaded()) wait(0.1);
-	const playerGui = new Instance("ScreenGui", game.GetService("Players").LocalPlayer.WaitForChild("PlayerGui"));
 	root.render(<StrictMode>{createPortal(
-	<ReflexProvider producer={store}>
-		<App />
-	</ReflexProvider>,
+		<ReflexProvider producer={store}>
+			<App />
+		</ReflexProvider>,
 	playerGui)}</StrictMode>);
 }
